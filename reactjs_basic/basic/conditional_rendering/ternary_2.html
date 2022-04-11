@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!--    <script crossorigin src="https://cdn.jsdelivr.net/npm/immutability-helper-x@1.0.5/lib/index.min.js"></script>-->
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+    class App extends React.Component {
+        render() {
+            const users = [
+                {name: 'Robin'},
+                {name: 'Markus'},
+            ];
+            const showUsers = true;
+            return (
+                <div>
+                    {
+                        // https://www.educative.io/module/lesson/react-fundamentals/BnBEJnM7W1n
+
+                        // Another way of doing it, if you only return one side of the conditional rendering anyway, is using the && operator:
+                        showUsers && (
+                            <ul>
+                                {users.map(user => <li>{user.name}</li>)}
+                            </ul>
+                        )
+                    }
+                </div>
+            );
+        }
+    }
+
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById('root')
+    )
+</script>
+
+</body>
+</html>

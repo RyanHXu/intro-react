@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>js map</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!--    <script crossorigin src="https://cdn.jsdelivr.net/npm/immutability-helper-x@1.0.5/lib/index.min.js"></script>-->
+</head>
+<body>
+
+<div id="root"></div>
+
+<!--https://codesandbox.io/s/ecstatic-shadow-3dopx?file=/src/TodoList.js:380-667-->
+<script type="text/babel">
+    function App(props) {
+        const [todos, setTodos] = React.useState();
+
+        React.useEffect(() => {
+            axios.get('https://jsonplaceholder.typicode.com/todos')
+                .then(res => {
+                    const resTodos = res.data
+                    setTodos(resTodos)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        })
+        return (
+            <div className={{'text-align':'center'}}>
+                <h1> Todo List </h1>
+                <ul>
+                    {todos &&
+                        todos.map((todo) => {
+                            const { id, title } = todo;
+                            return (
+                                <li key={id}>
+                                    {title}
+                                </li>
+                            );
+                        })}
+                </ul>
+            </div>
+        )
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById('root')
+    )
+</script>
+
+</body>
+</html>
+</title>
+</head>
+<body>
+
+</body>
+</html>

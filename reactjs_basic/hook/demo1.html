@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!--    <script crossorigin src="https://cdn.jsdelivr.net/npm/immutability-helper-x@1.0.5/lib/index.min.js"></script>-->
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+    // function WarningBanner(props) {
+    //     if (!props.warn) {
+    //         return null;
+    //     }
+    //     return (
+    //         <div>
+    //             <div className="warning">
+    //                 warning!
+    //             </div>
+    //         </div>
+    //     )
+    // }
+
+    // js ternary
+    function WarningBanner({warn}) {
+        return (
+            <div>
+                {warn && <div style={{color: 'red'}}>warning!</div>}
+            </div>
+        )
+    }
+
+    // function && hook
+    function App() {
+        const [showWarning, setShowWarning] = React.useState(false)
+
+        const handleToggleClick = () => setShowWarning(!showWarning)
+
+        return (
+            <div style={{textAlign:'center',paddingTop:'5vh', transform:'scale(1.5)'}}>
+                <button onClick={handleToggleClick}>
+                    {showWarning? 'Hide' : 'Show'}
+                </button>
+                <WarningBanner warn={showWarning}/>
+
+            </div>
+        )
+    }
+
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById('root')
+    )
+</script>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+.app{
+    font-family: "Times New Roman", serif;
+}
+.header{
+    height: 20vh;
+}
+.container{
+    text-align: center;
+}
+
+.container .date{
+    color: red;
+}
+
+
+.container .greeting{
+    color: grey;
+}
+
+.container .firstRow{
+    color: seagreen;
+}

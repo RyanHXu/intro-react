@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+</head>
+<body>
+
+<div id="root" style="text-align: center"></div>
+
+<script type="text/babel">
+    function ReducerTutorial() {
+        const [count, setCount] = React.useState(0)
+        const [showText, setShowText] =React.useState(true)
+
+        return (
+            <div>
+                <h1>
+                    {count}
+                </h1>
+                <button onClick={()=>{
+                    setCount(count+1)
+                    setShowText(!showText)
+                }}>
+                    Click Here
+                </button>
+                {showText && <p>This is a text</p>}
+
+            </div>
+        )
+    }
+
+    ReactDOM.render(
+        <ReducerTutorial/>,
+        document.getElementById('root')
+    )
+</script>
+
+</body>
+</html>

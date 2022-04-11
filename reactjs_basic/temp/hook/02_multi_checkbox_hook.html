@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        body {
+            zoom: 120%;
+        }
+
+        .app {
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+
+    let items = [
+        {
+            id: 1,
+            text: 'Husky'
+        },
+        {
+            id: 2,
+            text: 'Golden Retriever'
+        },
+        {
+            id: 3,
+            text: 'Malamute'
+        }
+    ]
+    function App(){
+        const [checked, setChecked] = React.useState([false,false,false])
+        const [checkedTotal,setCheckedTotal] =React.useState(false)
+        const handleChange = (e) => {
+            const idx=parseInt(e.target.id)
+            setChecked(checked.map((item,index)=>{
+                return index===idx? !item:item
+            }))
+        }
+
+        const handleTotalChange = (e)=>{
+
+            // false
+            if(!checkedTotal){
+                setChecked(checked.map(item=>{
+                    return true
+                }))
+            }else{
+                setChecked(checked.map(item=>{
+                    return false
+                }))
+            }
+
+            setCheckedTotal(prevState => {
+                return !prevState
+            })
+        }
+
+            return (
+                <div>
+                    <input type="checkbox" id='root' checked={checked.every(v => v===true)}
+                           onChange={handleTotalChange}/>
+                    total
+
+                    <ul>
+                        {items.map((item, index) => (
+                            <li key={item.id}>
+                                <label>
+                                    <input type="checkbox" id={index} checked={checked[index]}
+                                           onChange={handleChange}/>
+                                    {item.text}
+                                </label>
+                            </li>
+
+                        ))}
+                    </ul>
+                </div>
+            )
+    }
+
+    ReactDOM.render(<App/>, document.getElementById('root'))
+
+</script>
+
+
+</body>
+</html>

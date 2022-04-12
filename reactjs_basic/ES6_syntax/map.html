@@ -15,10 +15,25 @@
 <div id="root"></div>
 
 <!--https://codesandbox.io/s/ecstatic-shadow-3dopx?file=/src/TodoList.js:380-667-->
+
 <script type="text/babel">
     function App(props) {
         const [todos, setTodos] = React.useState();
 
+
+        // React.useEffect(() => {
+        //     axios.get('https://jsonplaceholder.typicode.com/todos')
+        //         .then(res => {
+        //             const resTodos = res.data
+        //             setTodos(resTodos)
+        //         })
+        //         .catch(err => {
+        //             console.log(err)
+        //         })
+        // })
+
+        // useEffect(effectFunction, arrayDependencies)
+        // we need to add empty array to avoid infinite request
         React.useEffect(() => {
             axios.get('https://jsonplaceholder.typicode.com/todos')
                 .then(res => {
@@ -28,7 +43,7 @@
                 .catch(err => {
                     console.log(err)
                 })
-        })
+        },[])
         return (
             <div className={{'text-align':'center'}}>
                 <h1> Todo List </h1>

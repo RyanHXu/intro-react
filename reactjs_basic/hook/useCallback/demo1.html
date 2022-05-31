@@ -21,24 +21,43 @@
 <div id="root"></div>
 
 <script type="text/babel">
-    function App(props) {
-        const [age, setAge] = React.useState(0)
+    const App = () => {
+        const [age, setAge] = React.useState(99)
         const handleClick = () => setAge(age + 1)
-
-        React.useEffect(() => {
-            console.log('useEffect()')
-            document.title = `You are ${age} years`
-        })
+        const someValue = "someValue"
+        const doSomething = () => {
+            return someValue
+        }
 
         return (
-            <div className="container my-5">
-                <p>Look at the title of the current tab in your browser</p>
-                <button onClick={handleClick} className="btn btn-outline-primary">
-                    Update Title!
-                </button>
+            <div>
+                <Age age={age} handleClick={handleClick}/>
+                <Instructions doSomething={doSomething} />
             </div>
         )
     }
+
+    const Age = ({ age, handleClick }) => {
+        return (
+            <div>
+                <div className="col-6 mx-5 mt-5">
+                    <div style={{ border: '2px', background: "papayawhip", padding: "1rem" }}>
+                        Today I am {age} Years of Age
+                    </div>
+                    <pre> - click the button below 👇 </pre>
+                    <button className="btn-primary rounded mb-3"  onClick={handleClick}>Get older! </button>
+                </div>
+            </div>
+        )
+    }
+
+    const Instructions = React.memo((props) => {
+        return (
+            <div className="col-6 mx-5" style={{ background: 'black', color: 'yellow', padding: "1rem" }}>
+                <p>Follow the instructions above as closely as possible </p>
+            </div>
+        )
+    })
 
     ReactDOM.render(
         <App/>,

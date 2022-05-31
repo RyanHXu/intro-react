@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<!--    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>-->
+    <script crossorigin src="/node_modules/react/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
@@ -22,13 +23,17 @@
 
 <script type="text/babel">
     function App(props) {
-        const [age, setAge] = React.useState(0)
-        const handleClick = () => setAge(age + 1)
+        const age = React.createRef()
 
-        React.useEffect(() => {
-            console.log('useEffect()')
-            document.title = `You are ${age} years`
-        })
+        React.useEffect(()=>{
+            age.current.value = 1
+            console.log('test')
+        },[])
+
+        const handleClick = () => {
+            age.current.value = age.current.value === '' ? parseInt(1) : parseInt(age.current.value) + 1
+            age.current.focus();
+        }
 
         return (
             <div className="container my-5">
@@ -36,6 +41,9 @@
                 <button onClick={handleClick} className="btn btn-outline-primary">
                     Update Title!
                 </button>
+                <br/>
+                <textarea ref={age} rows="5" cols="33"/>
+
             </div>
         )
     }

@@ -21,21 +21,31 @@
 <div id="root"></div>
 
 <script type="text/babel">
-    function App(props) {
-        const [age, setAge] = React.useState(0)
-        const handleClick = () => setAge(age + 1)
+    const {useState,useEffect} = React;
 
-        React.useEffect(() => {
-            console.log('useEffect()')
-            document.title = `You are ${age} years`
-        })
+
+
+    function App(props) {
+
+
+        const [obj, setObj] = useState({name: 'Ohans'});
+
+        useEffect(() => {
+            setObj(prev => ({
+                ...prev,
+                age: 23
+            }))
+        }, []);
+
+        const {name,age} = obj;
 
         return (
-            <div className="container my-5">
-                <p>Look at the title of the current tab in your browser</p>
-                <button onClick={handleClick} className="btn btn-outline-primary">
-                    Update Title!
-                </button>
+            <div className="mx-5 my-5">
+                🐢 setState (object merge) vs useState (object replace) ⚽ 👋
+                <hr/>
+                {name}
+                <br/>
+                {age}
             </div>
         )
     }

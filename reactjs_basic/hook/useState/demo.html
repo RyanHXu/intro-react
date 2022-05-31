@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <!--    <script crossorigin src="https://cdn.jsdelivr.net/npm/immutability-helper-x@1.0.5/lib/index.min.js"></script>-->
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+    const App = () => {
+        const stories = [
+            {
+                title: 'React',
+                url: 'https://reactjs.org/',
+                author: 'Jordan Walke',
+                num_comments: 3,
+                points: 4,
+                objectID: 0,
+            },
+            {
+                title: 'Redux',
+                url: 'https://redux.js.org/',
+                author: 'Dan Abramov, Andrew Clark',
+                num_comments: 2,
+                points: 5,
+                objectID: 1,
+            },
+        ];
+
+        // NOTE:
+        // method 1:
+        // less readable version without array destructuring
+        const searchTermState = React.useState('');
+        const searchTerm = searchTermState[0];
+        const setSearchTerm = searchTermState[1];
+
+
+        // method 2
+        // const [searchTerm, setSearchTerm] = React.useState('');
+
+
+        const handleChange = event => {
+            setSearchTerm(event.target.value);
+        };
+
+        return (
+            <div>
+                <h1>My Hacker Stories</h1>
+
+                <label htmlFor="search">Search: </label>
+                <input id="search" type="text" onChange={handleChange}/>
+
+                <p>
+                    Searching for <strong>{searchTerm}</strong>.
+                </p>
+
+                <hr/>
+
+                <List list={stories}/>
+            </div>
+        );
+    };
+
+    const List = props =>
+        props.list.map(item => (
+            <div key={item.objectID}>
+      <span>
+        <a href={item.url}>{item.title}</a>
+      </span>
+        <span>{item.author}</span>
+        <span>{item.num_comments}</span>
+        <span>{item.points}</span>
+            </div>
+        ));
+
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById('root')
+    )
+</script>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<!--    <script src="/node_modules/babel/index.js"></script>-->
+
+    <script crossorigin src="/node_modules/react/umd/react.development.js"></script>
+
+    <script crossorigin src="/node_modules/react-dom/umd/react-dom.development.js"></script>
+
+    <script src="/node_modules/axios/dist/axios.min.js"></script>
+
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"  crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+    function App(props) {
+        return (
+            <div className="text-primary container my-5">
+                Hello Ryan
+
+            </div>
+        )
+    }
+
+
+    // NOTE: js destructuring feature
+    const {render} = ReactDOM;
+
+
+    render(
+        <App/>,
+        document.getElementById('root')
+    )
+
+    // ReactDOM.render(
+    //     <App/>,
+    //     document.getElementById('root')
+    // )
+</script>
+
+</body>
+</html>

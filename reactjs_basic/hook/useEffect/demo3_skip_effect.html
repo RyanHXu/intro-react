@@ -23,22 +23,23 @@
 
 <script type="text/babel">
     function App(props) {
-        // TODO:
         React.useEffect(() => {
             const clicked = () => console.log('window clicked')
-            window.addEventListener('click',clicked)
+            window.addEventListener('click', clicked)
 
-            return () =>{
-                window.removeEventListener('click',clicked)
+            return () => {
+                window.removeEventListener('click', clicked)
             }
-        },[])
+        }, [])
 
-        return (
-            <div className="container my-5">
-                <p>Effect with Cleanup</p>
+        // 🍟 another useEffect hook
+        React.useEffect(() => {
+            console.log("🍟 another useEffect call");
+        })
 
-            </div>
-        )
+        return <div>
+            Check your console logs
+        </div>
     }
 
     ReactDOM.render(

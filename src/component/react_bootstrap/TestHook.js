@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Button, Container} from "react-bootstrap";
+import {Button, Col, Container, Row} from "react-bootstrap";
 
 function TestHook() {
     const [count,setCount] = useState(0)
@@ -8,13 +8,27 @@ function TestHook() {
 
     return (
         <Container className={"my-5"}>
-            <Button variant={"secondary"} className={"mx-3"} onClick={decrement}>
-                Minus 1
-            </Button>
-            {count}
-            <Button variant={"primary"} className={"mx-3"} onClick={increment}>
-                Add 1
-            </Button>
+
+            <Row>
+                <Col className="col-2">
+                    <Button variant={"secondary"}  onClick={decrement}>
+                        Minus
+                    </Button>
+                </Col>
+                <Col className="col-1 my-auto align-middle">
+                    {count}
+
+
+                </Col>
+                <Col className="col-2">
+                    <Button variant={"primary"}  onClick={increment}>
+                        Add
+                    </Button>
+
+                </Col>
+            </Row>
+
+
         </Container>
     );
 }

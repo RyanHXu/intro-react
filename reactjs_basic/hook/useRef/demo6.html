@@ -21,42 +21,53 @@
 <div id="root"></div>
 
 <script type="text/babel">
-    const App = () => {
-        const [age, setAge] = React.useState(99)
-        const handleClick = () => setAge(age + 1)
-        const doSomething = React.useCallback(() => {
-            console.log('useCallback')
-        }, [age])
+
+
+
+    // https://reactjs.org/docs/hooks-reference.html#useref
+    const {useRef, useState, useEffect} = React
+
+    function App(props) {
+        const timerIdRef = useRef(0);
+        const [count, setCount] = useState(0);
+
+        const startHandler = () => {
+            if (timerIdRef.current) {
+                return;
+            }
+            timerIdRef.current = setInterval(() => setCount((c) => c + 1), 1000);
+        };
+
+        const stopHandler = () => {
+            clearInterval(timerIdRef.current);
+            timerIdRef.current = 0;
+        };
+
+        useEffect(() => {
+            return () => clearInterval(timerIdRef.current);
+        }, []);
 
         return (
-            <div>
-                <Age age={age} handleClick={handleClick} />
-                <Instructions doSomething={doSomething} />
-            </div>
-        )
-    }
-
-    const Age = ({ age, handleClick }) => {
-        return (
-            <div>
-                <div style={{ border: '2px', background: "papayawhip", padding: "1rem" }}>
-                    Today I am {age} Years of Age
+            <div className="mx-5 my-5">
+                <div>
+                    Timer: {count}s
                 </div>
-                <pre> - click the button below 👇 </pre>
-                <button onClick={handleClick}>Get older! </button>
+                <div>
+                    <button className="btn btn-outline-primary"
+                            onClick={startHandler}>
+                        >
+                        Start
+                    </button>
+
+                    <button className="btn btn-outline-primary"
+                            onClick={stopHandler}>
+                        >
+                        Stop
+                    </button>
+                </div>
             </div>
         )
     }
-
-    // NOTE: prevent <Instructions /> from re-rendering needlessly
-    const Instructions = React.memo((props) => {
-        return (
-            <div style={{ background: 'black', color: 'yellow', padding: "1rem" }}>
-                <p>Follow the instructions above as closely as possible</p>
-            </div>
-
-        )
-    })
 
     ReactDOM.render(
         <App/>,

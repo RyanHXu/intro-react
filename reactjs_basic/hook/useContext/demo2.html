@@ -20,32 +20,31 @@
 
 <div id="root"></div>
 
-<!--https://blog.logrocket.com/understanding-react-useeffect-cleanup-function/  -->
-<!--https://zhuanlan.zhihu.com/p/65773322  -->
-
 <script type="text/babel">
-    // TODO: useEffect
-    function App(props) {
-        const [count, setCount] = React.useState(0);
+    const ThemeContext = React.createContext('light')
+    // const ThemeContext = React.createContext('light')
 
-        // Similar to componentDidMount and componentDidUpdate:
-        React.useEffect(() => {
-            // Update the document title using the browser API
-            document.title = `You clicked ${count} times`;
-        },[count]);
-
+    const Display = () => {
         return (
-            <div>
-                <p>You clicked {count} times</p>
-                <button onClick={() => setCount(count + 1)}>
-                    Click me
-                </button>
-            </div>
-        );
-    }
 
+            <ThemeContext.Consumer>
+                {theme => (
+                    <div
+                        style={{
+                            background: theme === 'dark' ? 'black' : 'papayawhip',
+                            color: theme === 'dark' ? 'white' : 'palevioletred',
+                            width: '100%',
+                            minHeight: '200px'
+                        }}
+                    >
+                        {'The theme here is ' + theme}
+                    </div>
+                )}
+            </ThemeContext.Consumer>
+        )
+    }
     ReactDOM.render(
-        <App/>,
+        <Display/>,
         document.getElementById('root')
     )
 </script>

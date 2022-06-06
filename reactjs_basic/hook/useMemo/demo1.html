@@ -21,10 +21,19 @@
 <div id="root"></div>
 
 <script type="text/babel">
+    const {useState, useMemo,memo} = React;
     const App = () => {
-        const [age, setAge] = React.useState(99)
+        const [age, setAge] = useState(99)
         const handleClick = () => setAge(age + 1)
-        const someValue = "someValue"
+
+        // The only difference here is that someValue is an object NOT a string. Owing to this, the Instructions component still re-renders despite the use of React.memo.
+        //
+        //     Why?
+        //
+        //     Objects are compared by reference, and the reference to someValue changes whenever <App /> re-renders.
+
+        // This prevents the needless re-render.
+        const someValue = useMemo(() => ({value: "someValue"}))
         const doSomething = () => {
             return someValue
         }
@@ -32,35 +41,31 @@
         return (
             <div>
                 <Age age={age} handleClick={handleClick}/>
-                <Instructions doSomething={doSomething} />
+                <Instructions doSomething={doSomething}/>
             </div>
         )
     }
 
-    const Age = ({ age, handleClick }) => {
+    const Age = ({age, handleClick}) => {
         return (
             <div>
-                <div className="col-6 mx-5 mt-5">
-                    <div style={{ border: '2px', background: "papayawhip", padding: "1rem" }}>
-                        Today I am {age} Years of Age
-                    </div>
-                    <pre> - click the button below 👇 </pre>
-                    <button className="btn-primary rounded mb-3"  onClick={handleClick}>Get older! </button>
+                <div style={{border: '2px', background: "papayawhip", padding: "1rem"}}>
+                    Today I am {age} Years of Age
                 </div>
+                <pre> - click the button below 👇 </pre>
+                <button className="btn btn-outline-primary ms-5" onClick={handleClick}>Get older!</button>
             </div>
         )
     }
 
-    // In the example above, the parent component, <Age /> is updated (and re-rendered) whenever the "Get older" button is clicked. Consequently, the <Instructions /> child component is also re-rendered because the doSomething prop is passed a new callback, with a new reference.
-    //
-    // NB: Even though the Instructions child component uses React.memo to optimize performace, it is still re-rendered.
-    const Instructions = React.memo((props) => {
+    const Instructions = memo((props) => {
         return (
-            <div className="col-6 mx-5" style={{ background: 'black', color: 'yellow', padding: "1rem" }}>
-                <p>Follow the instructions above as closely as possible </p>
+            <div style={{background: 'black', color: 'yellow', padding: "1rem"}}>
+                <p>Follow the instructions above as closely as possible</p>
             </div>
         )
     })
+
 
     ReactDOM.render(
         <App/>,

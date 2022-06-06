@@ -20,43 +20,39 @@
 
 <div id="root"></div>
 
+
 <script type="text/babel">
+    // Skipping Effects (Array Dependency)
+    const {useState, useEffect} = React;
     const App = () => {
-        const [age, setAge] = React.useState(99)
-        const handleClick = () => setAge(age + 1)
-        const doSomething = React.useCallback(() => {
-            console.log('useCallback')
-        }, [age])
+        const [randomNumber, setRandomNumber] = useState(0)
+        const [effectLogs, setEffectLogs] = useState([])
 
-        return (
-            <div>
-                <Age age={age} handleClick={handleClick} />
-                <Instructions doSomething={doSomething} />
-            </div>
+        useEffect(
+            () => {
+                setEffectLogs(prevEffectLogs => [...prevEffectLogs, 'effect fn has been invoked'])
+            },
+            [randomNumber]
         )
-    }
 
-    const Age = ({ age, handleClick }) => {
         return (
-            <div>
-                <div style={{ border: '2px', background: "papayawhip", padding: "1rem" }}>
-                    Today I am {age} Years of Age
+            <div className="my-5 mx-5">
+                <h1>{randomNumber}</h1>
+                <button className="btn btn-outline-primary"
+                    onClick={() => {
+                        setRandomNumber(Math.random())
+                    }}
+                >
+                    Generate random number!
+                </button>
+                <div>
+                    {effectLogs.map((effect, index) => (
+                        <div key={index}>{'🍔'.repeat(index) + effect}</div>
+                    ))}
                 </div>
-                <pre> - click the button below 👇 </pre>
-                <button onClick={handleClick}>Get older! </button>
             </div>
         )
     }
-
-    // NOTE: prevent <Instructions /> from re-rendering needlessly
-    const Instructions = React.memo((props) => {
-        return (
-            <div style={{ background: 'black', color: 'yellow', padding: "1rem" }}>
-                <p>Follow the instructions above as closely as possible</p>
-            </div>
-
-        )
-    })
 
     ReactDOM.render(
         <App/>,

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <!--    <script crossorigin src="https://cdn.jsdelivr.net/npm/immutability-helper-x@1.0.5/lib/index.min.js"></script>-->
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+    const {useState, useEffect} = React;
+    const App = () => {
+        const stringifyData = data => JSON.stringify(data, null, 2)
+        const initialData = stringifyData({ data: null })
+        const loadingData = stringifyData({ data: 'loading...' })
+        const [data, setData] = useState(initialData)
+
+        const [gender, setGender] = useState('female')
+        const [loading, setLoading] = useState(false)
+
+        useEffect(
+            () => {
+                const fetchData = () => {
+                    setLoading(true)
+                    const uri = 'https://randomuser.me/api/?gender=' + gender
+                    fetch(uri)
+                        .then(res => res.json())
+                        .then(({ results }) => {
+                            setLoading(false)
+                            const { name, gender, dob } = results[0]
+                            const dataVal = stringifyData({
+                                ...name,
+                                gender,
+                                age: dob.age
+                            })
+                            setData(dataVal)
+                        })
+                }
+
+                fetchData()
+            },
+            [gender]
+        )
+
+        return (
+            <>
+                <p>Click the buttons below to fetch data</p>
+                <button
+                    onClick={() => setGender('male')}
+                    style={{ outline: gender === 'male' ? '1px solid' : 0 }}
+                >
+                    Fetch Male User
+                </button>
+                <button
+                    onClick={() => setGender('female')}
+                    style={{ outline: gender === 'female' ? '1px solid' : 0 }}
+                >
+                    Fetch Female User
+                </button>
+
+                <section>
+                    {loading ? <pre>{loadingData}</pre> : <pre>{data}</pre>}
+                </section>
+            </>
+        )
+    }
+
+    ReactDOM.render(
+        <App/>,
+        document.getElementById('root')
+    )
+</script>
+
+</body>
+</html>

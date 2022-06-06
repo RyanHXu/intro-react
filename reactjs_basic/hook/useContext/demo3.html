@@ -21,45 +21,25 @@
 <div id="root"></div>
 
 <script type="text/babel">
-    const App = () => {
-        const [age, setAge] = React.useState(99)
-        const handleClick = () => setAge(age + 1)
-        const doSomething = React.useCallback(() => {
-            console.log('useCallback')
-        }, [age])
+    const {createContext, useContext} = React;
 
-        return (
-            <div>
-                <Age age={age} handleClick={handleClick} />
-                <Instructions doSomething={doSomething} />
-            </div>
-        )
+    const ThemeContext = React.createContext('light');
+
+    const Display = () => {
+        const theme = useContext(ThemeContext);
+        return <div
+            style={{
+                background: theme === 'dark' ? 'black' : 'papayawhip',
+                color: theme === 'dark' ? 'white' : 'palevioletred',
+                width: '100%',
+                minHeight: '200px'
+            }}
+        >
+            {'The theme here is ' + theme}
+        </div>
     }
-
-    const Age = ({ age, handleClick }) => {
-        return (
-            <div>
-                <div style={{ border: '2px', background: "papayawhip", padding: "1rem" }}>
-                    Today I am {age} Years of Age
-                </div>
-                <pre> - click the button below 👇 </pre>
-                <button onClick={handleClick}>Get older! </button>
-            </div>
-        )
-    }
-
-    // NOTE: prevent <Instructions /> from re-rendering needlessly
-    const Instructions = React.memo((props) => {
-        return (
-            <div style={{ background: 'black', color: 'yellow', padding: "1rem" }}>
-                <p>Follow the instructions above as closely as possible</p>
-            </div>
-
-        )
-    })
-
     ReactDOM.render(
-        <App/>,
+        <Display/>,
         document.getElementById('root')
     )
 </script>

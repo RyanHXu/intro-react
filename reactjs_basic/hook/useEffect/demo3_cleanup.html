@@ -21,42 +21,24 @@
 <div id="root"></div>
 
 <script type="text/babel">
+
+    const {useState, useEffect} = React;
     const App = () => {
-        const [age, setAge] = React.useState(99)
-        const handleClick = () => setAge(age + 1)
-        const doSomething = React.useCallback(() => {
-            console.log('useCallback')
-        }, [age])
+        useEffect(() => {
+            const clicked = () => console.log('window clicked')
+            window.addEventListener('click', clicked)
 
-        return (
-            <div>
-                <Age age={age} handleClick={handleClick} />
-                <Instructions doSomething={doSomething} />
-            </div>
-        )
+            // return a clean-up function
+            return () => {
+                window.removeEventListener('click', clicked)
+            }
+        }, [])
+
+        return <div>
+            When you click the window you'll
+            find a message logged to the console
+        </div>
     }
-
-    const Age = ({ age, handleClick }) => {
-        return (
-            <div>
-                <div style={{ border: '2px', background: "papayawhip", padding: "1rem" }}>
-                    Today I am {age} Years of Age
-                </div>
-                <pre> - click the button below 👇 </pre>
-                <button onClick={handleClick}>Get older! </button>
-            </div>
-        )
-    }
-
-    // NOTE: prevent <Instructions /> from re-rendering needlessly
-    const Instructions = React.memo((props) => {
-        return (
-            <div style={{ background: 'black', color: 'yellow', padding: "1rem" }}>
-                <p>Follow the instructions above as closely as possible</p>
-            </div>
-
-        )
-    })
 
     ReactDOM.render(
         <App/>,

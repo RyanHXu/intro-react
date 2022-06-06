@@ -21,42 +21,35 @@
 <div id="root"></div>
 
 <script type="text/babel">
-    const App = () => {
-        const [age, setAge] = React.useState(99)
-        const handleClick = () => setAge(age + 1)
-        const doSomething = React.useCallback(() => {
-            console.log('useCallback')
-        }, [age])
+
+
+
+    // https://reactjs.org/docs/hooks-reference.html#useref
+    const {useRef, useState, useEffect} = React
+
+    function App(props) {
+        const [count, setCount] = useState(0);
+
+        const handle = () => {
+            const updatedCount = count + 1;
+            console.log(`Clicked ${updatedCount} times`);
+            setCount(updatedCount);
+        };
+
+        // whenever count changes, the ui will be re-rendered
+        console.log("I rendered!");
 
         return (
             <div>
-                <Age age={age} handleClick={handleClick} />
-                <Instructions doSomething={doSomething} />
+                <button className="btn btn-outline-primary"
+                    onClick={handle}>
+                >
+                    Click me!
+                </button>
+
             </div>
         )
     }
-
-    const Age = ({ age, handleClick }) => {
-        return (
-            <div>
-                <div style={{ border: '2px', background: "papayawhip", padding: "1rem" }}>
-                    Today I am {age} Years of Age
-                </div>
-                <pre> - click the button below 👇 </pre>
-                <button onClick={handleClick}>Get older! </button>
-            </div>
-        )
-    }
-
-    // NOTE: prevent <Instructions /> from re-rendering needlessly
-    const Instructions = React.memo((props) => {
-        return (
-            <div style={{ background: 'black', color: 'yellow', padding: "1rem" }}>
-                <p>Follow the instructions above as closely as possible</p>
-            </div>
-
-        )
-    })
 
     ReactDOM.render(
         <App/>,
